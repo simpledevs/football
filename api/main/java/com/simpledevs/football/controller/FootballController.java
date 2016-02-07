@@ -1,19 +1,26 @@
 package com.simpledevs.football.controller;
 
-import org.springframework.stereotype.Controller;
+import com.simpledevs.football.entity.Country;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class FootballController {
 
     @RequestMapping(value = "/countries", method = RequestMethod.GET)
     @ResponseBody
-    public String getCountries(ModelMap model) {
-        return "Country";
+    public Country getCountries(ModelMap model) {
+        return getMock();
     }
 
+    public Country getMock() {
+        final Country country = new Country();
+        country.setId(1);
+        country.setName("USA");
+        return country;
+    }
 }
