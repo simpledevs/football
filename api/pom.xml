@@ -15,15 +15,12 @@
 
     <dependencies>
 
-        <!--SPRING-->
+        <!--WEB-->
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
-        <!--WEB-->
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
