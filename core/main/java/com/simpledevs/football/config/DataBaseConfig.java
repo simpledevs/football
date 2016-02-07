@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -44,7 +46,21 @@ public class DataBaseConfig {
         dataSource.setDriverClassName(env.getRequiredProperty("db.driver"));
         dataSource.setUsername(env.getRequiredProperty("db.username"));
         dataSource.setPassword(env.getRequiredProperty("db.password"));
+        dataSource.setInitialSize(Integer.parseInt(env.getRequiredProperty("db.initialSize")));
+        dataSource.setMinIdle(Integer.parseInt(env.getRequiredProperty("db.minIdle")));
+        dataSource.setMaxIdle(Integer.parseInt(env.getRequiredProperty("db.maxIdle")));
+        dataSource.setTimeBetweenEvictionRunsMillis(Long.parseLong(env.getRequiredProperty("db.timeBetweenEvictionRunsMillis")));
+        dataSource.setMinEvictableIdleTimeMillis(Long.parseLong(env.getRequiredProperty("db.minEvicableIdleTimeMillis")));
+        dataSource.setTestOnBorrow(Boolean.parseBoolean(env.getRequiredProperty("db.testOnBorrow")));
+        dataSource.setValidationQuery(env.getRequiredProperty("db.validationQuery"));
         return dataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager platformTransactionManager() {
+        JpaTransactionManager manager = new JpaTransactionManager();
+        manager.setEntityManagerFactory(entityManagerFactory().getObject());
+        return manager;
     }
 
     public Properties getHibernateProperties() {
